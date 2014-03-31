@@ -41,11 +41,11 @@ Entity.prototype.destroy = function() {
 };
 
 Entity.prototype.init = function(data) {
-	this.fillStyle = 'red';
+  this.fillStyle = 'red';
 
-	if (data && data.m) {
-		this.fillStyle = Layer.Ship.createPattern(document.getElementById(data.m), 'no-repeat');
-	};
+  if (data && data.m) {
+    this.fillStyle = Layer.Ship.createPattern(document.getElementById(data.m), 'no-repeat');
+  };
 
   this.setup(data);
 
