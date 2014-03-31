@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>shooter.io (BETA)</title>
+    <link href="http://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+    <link rel="stylesheet" media="all" href="css/main.css">
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/json2.js"></script>
+
+    <script type="text/javascript" src="js/lowLag.js"></script>
+
+    <script type="text/javascript" src="js/util.js"></script>
+    <script type="text/javascript" src="js/entity.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
+
+    <script type="text/javascript" src="js/ship.js"></script>
+    <script type="text/javascript" src="js/fire.js"></script>
+    <script type="text/javascript" src="js/powerup.js"></script>
+  </head>
+  <body>
+
+    <div id="assets">
+
+      <img id="stars-background" src="../assets/background.png">
+
+      <img id="item-beam-1x" src="../assets/item-beam-1x.png">
+      <img id="item-beam-2x" src="../assets/item-beam-2x.png">
+      <img id="item-beam-3x" src="../assets/item-beam-3x.png">
+
+      <img id="item-bonus-1x" src="../assets/item-bonus-1x.png">
+      <img id="item-bonus-2x" src="../assets/item-bonus-2x.png">
+      <img id="item-bonus-3x" src="../assets/item-bonus-3x.png">
+
+      <img id="item-recover-1x" src="../assets/item-recover-1x.png">
+      <img id="item-recover-2x" src="../assets/item-recover-2x.png">
+      <img id="item-recover-3x" src="../assets/item-recover-3x.png">
+      <img id="item-recover-full" src="../assets/item-recover-full.png">
+
+      <img id="item-speed-1x" src="../assets/item-speed-1x.png">
+      <img id="item-speed-2x" src="../assets/item-speed-2x.png">
+      <img id="item-speed-3x" src="../assets/item-speed-3x.png">
+
+      <img id="beam-1x" src="../assets/beam-1x.png">
+      <img id="beam-2x" src="../assets/beam-2x.png">
+      <img id="beam-3x" src="../assets/beam-3x.png">
+
+      <img id="ship-1" src="../assets/ship-1.png">
+      <img id="ship-2" src="../assets/ship-2.png">
+      <img id="ship-3" src="../assets/ship-3.png">
+      <img id="ship-4" src="../assets/ship-4.png">
+      <img id="ship-5" src="../assets/ship-5.png">
+      <img id="ship-6" src="../assets/ship-6.png">
+      <img id="ship-7" src="../assets/ship-7.png">
+      <img id="ship-8" src="../assets/ship-8.png">
+
+      <img id="ship-ai-1" src="../assets/ship-ai-1.png">
+      <img id="ship-ai-2" src="../assets/ship-ai-2.png">
+      <img id="ship-ai-3" src="../assets/ship-ai-3.png">
+      <img id="ship-ai-4" src="../assets/ship-ai-4.png">
+      <img id="ship-ai-5" src="../assets/ship-ai-5.png">
+      <img id="ship-ai-6" src="../assets/ship-ai-6.png">
+      <img id="ship-ai-7" src="../assets/ship-ai-7.png">
+      <img id="ship-ai-8" src="../assets/ship-ai-8.png">
+
+    </div>
+
+    <div id="instructions" class="frame-overlay hidden overlay">
+
+      <div class="frame">
+        <h1>shooter.io</h1>
+
+        <ul>
+          <li>
+            Use <span class="keys">[← ↑ → ↓]</span> to move.
+          </li>
+          <li>
+            Press <span class="keys">[space]</span> to shoot.
+          </li>
+        </ul>
+
+        <form onsubmit="return Game.connect()">
+          <label>
+            Your handle:
+            <input type="text" id="gamertag" autocomplete="off" autocorrect="off" autocapitalize="off" />
+          </label>
+          <button id="start" type="submit">Start &raquo;</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div id="results" class="frame-overlay hidden overlay">
+
+      <div class="frame">
+        <h2>Game over</h2>
+        <div id="summary">
+          Your total: <span id="score-end-value">26,789</span>ψ
+        </div>
+        <h3>High Scores</h3>
+        <table id="highscores">
+          <thead>
+            <tr>
+              <th class="place">Place</th>
+              <th class="handle">Handle</th>
+              <th class="score">Score</th>
+            </tr>
+          <thead>
+          <tbody>
+            <tr>
+              <td class="place">1st</td>
+              <td>JAMES</td>
+              <td class="score">0</td>
+            </tr>
+          </tbody>
+        </table>
+        <form onsubmit="return Game.reset()">
+          <button type="submit" id="btn-restart">Restart</button>
+        </form>
+      </div>
+
+    </div>
+
+    <canvas class="layer overlay" id="stars-layer"></canvas>
+    <canvas class="layer overlay" id="ship-layer"></canvas>
+
+    <canvas id="radar-layer" width="200" height="200"></canvas>
+
+    <div id="life">
+      <div id="life-progress">
+        <div id="life-progress-bar"></div>
+      </div>
+    </div>
+
+    <div id="score">
+      <span>
+        <span id="score-value">0</span>&lambda;
+      </span>
+    </div>
+
+    <div id="fx-hit" class="overlay hidden"></div>
+
+    <script type="text/javascript" src="js/ws.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+  </body>
+</html>
