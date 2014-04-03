@@ -17,7 +17,8 @@ Running a local server is not necessary, it will connect to the main
 
 ## How to collaborate
 
-[Take or create an issue][1] and fix it.
+* [Take or create an issue][1] and fix it.
+* or [Open an issue][1] and justify it.
 
 ## Acknowledgements
 
