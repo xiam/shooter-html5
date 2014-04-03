@@ -1,13 +1,27 @@
 # shooter.io (HTML5)
 
-This is a work in progress. [Take or create an issue][1] and fix it.
+Client for the [shooter-server][4] that powers [shooter.io][3].
+
+This is a work in progress :-).
+
+## How to run the site
 
 ```
-cd ./src
+git clone https://github.com/xiam/shooter-html5.git
+cd ./shooter-html5/src
 python -m SimpleHTTPServer
 ```
 
-## Aknowledgements
+Running a local server is not necessary, it will connect to the main
+[shooter.io][3] site.
+
+## How to collaborate
+
+[Take or create an issue][1] and fix it.
+
+## Acknowledgements
+
+Thanks to [Kenney Vleugels][2] for his awesome art and assets.
 
 ```
 ###############################################################################
@@ -49,3 +63,6 @@ python -m SimpleHTTPServer
 > WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [1]: https://github.com/xiam/shooter-html5/issues
+[2]: http://kenney.nl/
+[3]: http://shooter.io
+[4]: https://github.com/xiam/shooter-server
