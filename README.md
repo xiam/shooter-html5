@@ -1,10 +1,12 @@
 # shooter.io (HTML5)
 
-Client for the [shooter-server][4] that powers [shooter.io][3].
+HTML5 client for the [shooter-server][4] that powers [shooter.io][3].
 
 This is a work in progress :-).
 
 ## How to run the site
+
+It's easy. Open your favorite terminal and type:
 
 ```
 git clone https://github.com/xiam/shooter-html5.git
@@ -12,13 +14,19 @@ cd ./shooter-html5/src
 python -m SimpleHTTPServer
 ```
 
-Running a local server is not necessary, it will connect to the main
-[shooter.io][3] site.
+The last command will run a HTTP server on `localhost`, fire up Chrome and type
+`http://localhost:8000` to see the game.
+
+Running a local `shooter-server` is not required, as this client will connect
+to the main [shooter.io][3] game server by itself.
 
 ## How to collaborate
 
-* [Take or create an issue][1] and fix it.
-* or [Open an issue][1] and justify it.
+You may...
+
+* [Take an issue][1] and fix it.
+* [Open an issue][1] and justify it.
+* Or [report a bug][1].
 
 ## Acknowledgements
 
