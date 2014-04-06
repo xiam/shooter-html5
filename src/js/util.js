@@ -215,13 +215,13 @@ Sound.init = function() {
     'debugFlash': false,
     'onready': function() {
       Sound.__fire = soundManager.createSound({
-        'url': 'assets/fire.ogg'
+        'url': 'assets/shoot.wav'
       });
       Sound.__hit = soundManager.createSound({
-        'url': 'assets/hit.ogg'
+        'url': 'assets/hit.wav'
       });
       Sound.__hitOhter = soundManager.createSound({
-        'url': 'assets/hit-other.ogg'
+        'url': 'assets/hit-other.wav'
       });
     }
   });
