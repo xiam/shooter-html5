@@ -206,24 +206,43 @@ Points.set = function(n) {
 // Sound properties.
 var Sound = {};
 
+Sound.volume = 100;
+
 Sound.init = function() {
-  lowLag.init({debug: 'none'});
-  lowLag.load(['assets/fire.ogg'], 'fire');
-  lowLag.load(['assets/hit-other.ogg'], 'hit-other');
-  lowLag.load(['assets/hit.ogg'], 'hit');
+  soundManager.setup({
+    'url': '/js/swf/',
+    'debugMode': false,
+    'debugFlash': false,
+    'onready': function() {
+      Sound.__fire = soundManager.createSound({
+        'url': 'assets/fire.ogg'
+      });
+      Sound.__hit = soundManager.createSound({
+        'url': 'assets/hit.ogg'
+      });
+      Sound.__hitOhter = soundManager.createSound({
+        'url': 'assets/hit-other.ogg'
+      });
+    }
+  });
 };
 
 Sound.fire = function() {
-  lowLag.play('fire');
+  if (Sound.__fire) {
+    Sound.__fire.play();
+  };
 };
 
 Sound.hitOther = function() {
-  //lowLag.play('hit-other');
-  lowLag.play('hit');
+  if (Sound.__hitOther) {
+    Sound.__hitOther.play();
+  };
 };
 
 Sound.hit = function() {
-  lowLag.play('hit');
+  if (Sound.__hit) {
+    Sound.__hit.play();
+  };
 };
 
 Sound.init();
