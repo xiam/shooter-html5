@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>shooter.io (BETA)</title>
+    <title>shooter.io - Space Shooter (BETA)</title>
     <link href="http://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet" type="text/css">
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
     <link rel="stylesheet" media="all" href="css/main.css">
+
+    <meta property="og:site_name" content="shooter.io - Space Shooter (BETA)" />
+    <meta property="og:title" content="shooter.io - Space Shooter (BETA)" />
+    <meta property="og:url" content="http://shooter.io" />
+    <meta property="og:image" content="http://shooter.io/assets/share.png" />
+
+    <meta itemprop="name" content="shooter.io - Space Shooter (BETA)">
+    <meta itemprop="description" content="shooter.io - Space Shooter (BETA)">
+    <meta itemprop="image" content="http://shooter.io/assets/share.png">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/json2.js"></script>
 
-    <script type="text/javascript" src="js/lowLag.js"></script>
+    <script type="text/javascript" src="js/sm2.js"></script>
 
     <script type="text/javascript" src="js/util.js"></script>
     <script type="text/javascript" src="js/entity.js"></script>
@@ -72,6 +80,8 @@
       <div class="frame">
         <h1>shooter.io</h1>
 
+        <small><b>Please reduce the volume of your speakers.</b> This is a work in progress that may crash anytime :-). Availabe *ONLY* for Chrome on desktop.</small>
+
         <ul>
           <li>
             Use <span class="keys">[← ↑ → ↓]</span> to move.
@@ -80,6 +90,7 @@
             Press <span class="keys">[space]</span> to shoot.
           </li>
         </ul>
+
 
         <form onsubmit="return Game.connect()">
           <label>
@@ -97,7 +108,7 @@
       <div class="frame">
         <h2>Game over</h2>
         <div id="summary">
-          Your total: <span id="score-end-value">26,789</span>ψ
+          Your total: <span id="score-end-value">0</span>&lambda;
         </div>
         <h3>High Scores</h3>
         <table id="highscores">
