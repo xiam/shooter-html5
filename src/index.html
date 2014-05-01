@@ -10,27 +10,26 @@
     <meta property="og:title" content="shooter.io - Space Shooter (BETA)" />
     <meta property="og:url" content="http://shooter.io" />
     <meta property="og:image" content="http://shooter.io/assets/share.png" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <meta itemprop="name" content="shooter.io - Space Shooter (BETA)">
     <meta itemprop="description" content="shooter.io - Space Shooter (BETA)">
     <meta itemprop="image" content="http://shooter.io/assets/share.png">
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/json2.js"></script>
+    <script type="text/javascript" src="js/require.js"></script>
+    <script type="text/javascript">
+      require.config({
+        'baseUrl': 'js'
+      });
 
-    <script type="text/javascript" src="js/sm2.js"></script>
-
-    <script type="text/javascript" src="js/util.js"></script>
-    <script type="text/javascript" src="js/entity.js"></script>
-    <script type="text/javascript" src="js/controller.js"></script>
-
-    <script type="text/javascript" src="js/ship.js"></script>
-    <script type="text/javascript" src="js/fire.js"></script>
-    <script type="text/javascript" src="js/powerup.js"></script>
+      require(['main']);
+    </script>
   </head>
   <body>
 
+    <!-- Assets preloader -->
     <div id="assets">
+      <!-- TODO: Create a asset preload module. -->
 
       <img id="stars-background" src="../assets/background.png">
 
@@ -75,6 +74,7 @@
 
     </div>
 
+    <!-- Instructions overlay -->
     <div id="instructions" class="frame-overlay hidden overlay">
 
       <div class="frame">
@@ -92,17 +92,19 @@
         </ul>
 
 
-        <form onsubmit="return Game.connect()">
+        <form id="form-handle">
           <label>
             Your handle:
             <input type="text" id="gamertag" autocomplete="off" autocorrect="off" autocapitalize="off" />
           </label>
           <button id="start" type="submit">Start &raquo;</button>
         </form>
+
       </div>
 
     </div>
 
+    <!-- Results overlay -->
     <div id="results" class="frame-overlay hidden overlay">
 
       <div class="frame">
@@ -127,34 +129,41 @@
             </tr>
           </tbody>
         </table>
-        <form onsubmit="return Game.reset()">
+        <form id="form-reset">
           <button type="submit" id="btn-restart">Restart</button>
         </form>
       </div>
 
     </div>
 
+    <!-- Stars layer -->
     <canvas class="layer overlay" id="stars-layer"></canvas>
+
+    <!-- Ships layer -->
     <canvas class="layer overlay" id="ship-layer"></canvas>
 
+    <!-- Radar layer -->
     <canvas id="radar-layer" width="200" height="200"></canvas>
 
+    <!-- Life bar -->
     <div id="life">
       <div id="life-progress">
         <div id="life-progress-bar"></div>
       </div>
     </div>
 
+    <!-- Score -->
     <div id="score">
       <span>
         <span id="score-value">0</span>&lambda;
       </span>
     </div>
 
+    <!-- Hit effects -->
     <div id="fx-hit" class="overlay hidden"></div>
 
-    <script type="text/javascript" src="js/ws.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript">
+    </script>
 
   </body>
 </html>

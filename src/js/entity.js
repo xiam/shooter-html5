@@ -1,159 +1,114 @@
-// TODO: Move to a saner location.
-var Entities = {};
+define(['util', 'layer'], function(util, layer) {
 
-var Entity = function(data) {
-  this.init(data);
-};
+  var all = [];
 
-// Entity unique identificator string.
-Entity.prototype.id = '';
-
-Entity.prototype.ticks = 0;
-
-Entity.prototype.setType = function(type) {
-  this.type = type;
-};
-
-Entity.prototype.w = 0;
-Entity.prototype.h = 0;
-
-// Entity position [x, y].
-Entity.prototype.p = [0, 0];
-
-// Direction unit vector [x, y].
-Entity.prototype.d = [0, 0];
-
-// Orientation angle (degrees)
-Entity.prototype.t = 0;
-
-// Position's rate of change.
-Entity.prototype.s = 0;
-
-Entity.prototype.data = {};
-
-Entity.prototype.setId = function(id) {
-  this.id = id;
-  Entities[this.id] = this;
-};
-
-Entity.prototype.destroy = function() {
-  delete Entities[this.id];
-};
-
-Entity.prototype.init = function(data) {
-  this.fillStyle = 'red';
-
-  if (data && data.m) {
-    this.fillStyle = Layer.Ship.createPattern(document.getElementById(data.m), 'no-repeat');
+  var module = function(data) {
+    this.Init(data);
   };
 
-  this.setup(data);
+  // module unique identificator string.
+  module.prototype.id = '';
 
-  this.update(data);
+  module.prototype.ticks = 0;
 
-  this.data = data;
-};
-
-Entity.prototype.kill = function() {
-  delete Entities[this.id];
-};
-
-Entity.prototype.update = function(data) {
-  var k;
-  for (k in data) {
-    var v = data[k];
-    switch (k) {
-      case 'h':
-        this.h = v;
-      break;
-      case 'w':
-        this.w = v;
-      break;
-      case 'p':
-        this.setPosition(v[0], v[1]);
-      break;
-      case 'd':
-        this.setDirection(v[0], v[1]);
-      break;
-      case 's':
-        this.setSpeed(v);
-      break;
-    };
+  module.prototype.SetType = function(type) {
+    this.type = type;
   };
-};
 
-Entity.prototype.setup = function() {
-  // Replace.
-};
+  module.prototype.w = 0;
+  module.prototype.h = 0;
 
-Entity.prototype.setPosition = function(x, y) {
-  this.p = [x, y];
-};
+  // module position [x, y].
+  module.prototype.p = [0, 0];
 
-Entity.prototype.setDirection = function(x, y) {
-  var d = Math.sqrt(x*x + y*y);
-  if (d > 0) {
-    this.d = [x/d, y/d];
-    this.t = Math.atan2(this.d[1], this.d[0]);
+  // Direction unit vector [x, y].
+  module.prototype.d = [0, 0];
+
+  // Orientation angle (degrees)
+  module.prototype.t = 0;
+
+  // Position's rate of change.
+  module.prototype.s = 0;
+
+  module.prototype.data = {};
+
+  module.prototype.SetId = function(id) {
+    this.id = id;
+    all[this.id] = this;
   };
-};
 
-Entity.prototype.draw = function() {
+  module.prototype.Destroy = function() {
+    delete all[this.id];
+  };
 
-  var x = Screen.offset[0] + this.p[0] + Screen.correction[0];
-  var y = Screen.offset[1] + this.p[1] + Screen.correction[1];
-  var off = 200;
+  module.prototype.Init = function(data) {
+    this.fillStyle = 'red';
 
-  if (x >= -off && x <= (Screen.size[0]+off) && y >= -off && y <= (Screen.size[1]+off)) {
-    var ctx = Layer.Ship;
-
-    if (Screen.trackElementId == this.id) {
-      Util.updateBackground(x, y);
-      ctx.beginPath();
-
-      ctx.save();
-        ctx.translate(x, y);
-        var beat = 30 - 25*((Lifebar.limit - Lifebar.current)/Lifebar.limit);
-        var alpha = Math.abs(Math.sin(this.ticks/beat));
-
-        ctx.fillStyle = 'rgba(255, 255, 255, '+(alpha*0.05)+');'
-        ctx.strokeStyle = 'rgba(255, 255, 255, '+((1-alpha)*0.05)+');'
-        //ctx.strokeStyle = 'rgba(255, 255, 255, 0.05);'
-        ctx.lineWidth = 2;
-
-        ctx.arc(0, 0, Math.max(this.w, this.h)*0.6, 0, Math.PI*2);
-        ctx.stroke();
-        ctx.fill();
-        ctx.closePath();
-      ctx.restore();
+    if (data && data.m) {
+      this.fillStyle = layer.Ship.createPattern(document.getElementById(data.m), 'no-repeat');
     };
 
-    ctx.beginPath();
-    ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(this.t);
-      ctx.translate(-this.w/2, -this.h/2);
-      ctx.fillStyle = this.fillStyle || 'red';
-      ctx.fillRect(0, 0, this.w, this.h);
-    ctx.closePath();
+    this.Setup(data);
 
-    ctx.fill();
+    this.Update(data);
 
-    ctx.restore();
-
+    this.data = data;
   };
 
-  this.ticks++;
+  module.prototype.Update = function(data) {
+    var k;
+    for (k in data) {
+      var v = data[k];
+      switch (k) {
+        case 'h':
+          this.h = v;
+        break;
+        case 'w':
+          this.w = v;
+        break;
+        case 'p':
+          this.SetPosition(v[0], v[1]);
+        break;
+        case 'd':
+          this.SetDirection(v[0], v[1]);
+        break;
+        case 's':
+          this.SetSpeed(v);
+        break;
+      };
+    };
+  };
 
-};
+  module.prototype.Setup = function() {
+    // Replace.
+  };
 
-Entity.prototype.setSpeed = function(s) {
-  this.s = s;
-};
+  module.prototype.SetPosition = function(x, y) {
+    this.p = [x, y];
+  };
 
-Entity.prototype.tick = function(factor) {
-  var speed = this.s*factor;
-  this.p[0] = this.p[0] + this.d[0]*speed;
-  this.p[1] = this.p[1] + this.d[1]*speed;
-  return true;
-};
+  module.prototype.SetDirection = function(x, y) {
+    var d = Math.sqrt(x*x + y*y);
+    if (d > 0) {
+      this.d = [x/d, y/d];
+      this.t = Math.atan2(this.d[1], this.d[0]);
+    };
+  };
+
+  module.prototype.Draw = function() {
+    // Replace.
+  };
+
+  module.prototype.SetSpeed = function(s) {
+    this.s = s;
+  };
+
+  module.prototype.Tick = function(factor) {
+    var speed = this.s*factor;
+    this.p[0] = this.p[0] + this.d[0]*speed;
+    this.p[1] = this.p[1] + this.d[1]*speed;
+    return true;
+  };
+
+  return { 'Entity': module, 'All': all };
+});

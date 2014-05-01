@@ -1,98 +1,103 @@
-var Ship = Extend(Entity);
+define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score'], function($, util, entity, screen, lifebar, sound, score) {
 
-Ship.prototype.ident = function(data) {
-  // Centering ship.
-  var size = Screen.dimensions();
+  var module = util.Extend(entity.Entity);
 
-  Screen.offset = [
-    -this.p[0],
-    -this.p[1]
-  ];
+  module.prototype.Ident = function(data) {
+    // Centering ship.
+    var size = screen.Dimensions();
 
-  // Lifebar limits.
-  Lifebar.setLimit(this.data.L);
+    screen.Offset = [
+      -this.p[0],
+      -this.p[1]
+    ];
 
-  // Track this element.
-  Screen.trackElementId = this.id;
-};
+    // Lifebar limits.
+    lifebar.SetLimit(this.data.L);
 
-Ship.prototype.life = 0;
+    // Track this element.
+    screen.TrackElementId = this.id;
+  };
 
-Ship.prototype.points = 0;
+  module.prototype.life = 0;
 
-Ship.prototype.hit = function() {
+  module.prototype.points = 0;
 
-  if (this.isMain()) {
+  module.prototype.Hit = function() {
 
-    if (this.__hitTimer) {
-      window.clearTimeout(this.__hitTimer);
+    if (this.IsMain()) {
+
+      if (this.__hitTimer) {
+        window.clearTimeout(this.__hitTimer);
+      };
+
+      $('#fx-hit').fadeIn('fast');
+      $(document.body).addClass('shake');
+
+      this.__hitTimer = window.setTimeout(
+        function() {
+          $('#fx-hit').fadeOut('fast');
+          $(document.body).removeClass('shake');
+        }, 500
+      );
+
+      sound.Hit();
+    } else {
+      if (util.IsNear(this.d[0], this.d[1])) {
+        sound.HitOther();
+      };
     };
 
-    $('#fx-hit').fadeIn('fast');
-    $(document.body).addClass('shake');
+  };
 
-    this.__hitTimer = window.setTimeout(
-      function() {
-        $('#fx-hit').fadeOut('fast');
-        $(document.body).removeClass('shake');
-      }, 500
-    );
-
-    Sound.hit();
-  } else {
-    if (Util.isNear(this.d[0], this.d[1])) {
-      Sound.hitOther();
+  module.prototype.Update = function(data) {
+    var k;
+    for (k in data) {
+      var v = data[k];
+      switch (k) {
+        case 'h':
+          this.h = v;
+        break;
+        case 'w':
+          this.w = v;
+        break;
+        case 'p':
+          this.SetPosition(v[0], v[1]);
+        break;
+        case 'd':
+          this.SetDirection(v[0], v[1]);
+        break;
+        case 's':
+          this.SetSpeed(v);
+        break;
+        case 'L':
+          if (v < this.life) {
+            this.Hit();
+          };
+          this.life = v;
+          if (this.IsMain()) {
+            lifebar.SetCurrent(v);
+          };
+        break;
+        case 'P':
+          if (this.IsMain()) {
+            score.Set(v);
+          };
+        break;
+      };
     };
   };
 
-};
-
-Ship.prototype.update = function(data) {
-  var k;
-  for (k in data) {
-    var v = data[k];
-    switch (k) {
-      case 'h':
-        this.h = v;
-      break;
-      case 'w':
-        this.w = v;
-      break;
-      case 'p':
-        this.setPosition(v[0], v[1]);
-      break;
-      case 'd':
-        this.setDirection(v[0], v[1]);
-      break;
-      case 's':
-        this.setSpeed(v);
-      break;
-      case 'L':
-        if (v < this.life) {
-          this.hit();
-        };
-        this.life = v;
-        if (this.isMain()) {
-          Lifebar.setCurrent(v);
-        };
-      break;
-      case 'P':
-        if (this.isMain()) {
-          Points.set(v);
-        };
-      break;
+  module.prototype.Destroy = function() {
+    if (this.IsMain()) {
+      game.End();
+    } else {
+      delete entity.All[this.id];
     };
   };
-};
 
-Ship.prototype.destroy = function() {
-  if (this.isMain()) {
-    Game.end();
-  } else {
-    delete Entities[this.id];
+  module.prototype.IsMain = function() {
+    return (screen.TrackElementId == this.id);
   };
-};
 
-Ship.prototype.isMain = function() {
-  return (Screen.trackElementId == this.id);
-};
+  return { 'Ship': module };
+});

@@ -1,6 +1,9 @@
-var PowerUp = Extend(Entity);
+define(['jquery', 'util', 'entity'], function($, util, entity) {
+  var module = util.Extend(entity.Entity);
 
-PowerUp.prototype.setup = function(data) {
-  $(this.el).addClass('power-up').text(data.k);
-};
+  module.prototype.Setup = function(data) {
+    $(this.el).addClass('power-up').text(data.k);
+  };
 
+  return { 'PowerUp': module };
+});
