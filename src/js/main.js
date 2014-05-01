@@ -1,13 +1,16 @@
 // Websocker server address.
-var WEBSOCKET_SERVICE = 'ws://127.0.0.1:3223/w/';
+var WEBSOCKET_SERVICE = 'ws://10.0.0.148:3223/w/';
 
 // Frames configuration.
 var FRAMES_PER_SECOND = 24;
 var FRAME_INTERVAL    = 1000/FRAMES_PER_SECOND;
 
-require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws', 'screen', 'lifebar'],
-  function($, util, game, controller, layer, entity, radar, ws, screen, lifebar) {
+require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws', 'screen', 'lifebar', 'isMobile', 'gyro'],
 
+  function($, util, game, controller, layer, entity, radar, ws, screen, lifebar, isMobile) {
+
+
+    // Binding controller change to websocket send.
     controller.onStateChange(function(state) {
       ws.send(state);
     });
@@ -88,84 +91,118 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
       };
     };
 
-    // Key constants.
-    var KEY_NONE    = 0;
-    var KEY_LEFT    = 1;
-    var KEY_RIGHT   = 2;
-    var KEY_UP      = 3;
-    var KEY_DOWN    = 4;
-    var KEY_SHOOT   = 5;
-
-    var getKey = function(i) {
-      switch (i) {
-        case 37:
-        case 65:
-          return KEY_LEFT;
-        break;
-        case 39:
-        case 68:
-          return KEY_RIGHT;
-        break;
-        case 38:
-        case 87:
-          return KEY_UP;
-        break;
-        case 40:
-        case 83:
-          return KEY_DOWN;
-        break;
-        case 32:
-          return KEY_SHOOT;
-        break;
+    var captureIphone = function() {
+      var last = {
+        'alpha': 0,
+        'beta': 0,
+        'gamma': 0,
+        'x': 0,
+        'y': 0,
+        'z': 0
       };
-      return KEY_NONE;
+      gyro.startTracking(function(o) {
+        var diff = last.x - o.x;
+        var eps = 0.5;
+        if (diff < eps) {
+          controller.left(true);
+        } else if (diff > eps) {
+          controller.right(true);
+        } else {
+          controller.right(false);
+          controller.left(false);
+        };
+        last = {
+          'x': o.x,
+          'y': o.y,
+          'z': o.z,
+          'alpha':  o.alpha,
+          'beta':   o.beta,
+          'gamma':  o.gamma
+        };
+      });
     };
 
-    $(document).keyup(function(ev) {
-      var k = getKey(ev.keyCode);
+    var captureKeyboard = function() {
 
-      switch (k) {
-        case KEY_LEFT:
-          controller.left(false);
-        break;
-        case KEY_RIGHT:
-          controller.right(false);
-        break;
-        case KEY_UP:
-          controller.up(false);
-        break;
-        case KEY_DOWN:
-          controller.down(false);
-        break;
-        case KEY_SHOOT:
-          controller.shoot(false);
-        break;
+      // Key constants.
+      var KEY_NONE    = 0;
+      var KEY_LEFT    = 1;
+      var KEY_RIGHT   = 2;
+      var KEY_UP      = 3;
+      var KEY_DOWN    = 4;
+      var KEY_SHOOT   = 5;
+
+      var getKey = function(i) {
+        switch (i) {
+          case 37:
+          case 65:
+            return KEY_LEFT;
+          break;
+          case 39:
+          case 68:
+            return KEY_RIGHT;
+          break;
+          case 38:
+          case 87:
+            return KEY_UP;
+          break;
+          case 40:
+          case 83:
+            return KEY_DOWN;
+          break;
+          case 32:
+            return KEY_SHOOT;
+          break;
+        };
+        return KEY_NONE;
       };
 
-    });
+      $(document).keyup(function(ev) {
+        var k = getKey(ev.keyCode);
 
-    $(document).keydown(function(ev) {
-      var k = getKey(ev.keyCode);
+        switch (k) {
+          case KEY_LEFT:
+            controller.left(false);
+          break;
+          case KEY_RIGHT:
+            controller.right(false);
+          break;
+          case KEY_UP:
+            controller.up(false);
+          break;
+          case KEY_DOWN:
+            controller.down(false);
+          break;
+          case KEY_SHOOT:
+            controller.shoot(false);
+          break;
+        };
 
-      switch (k) {
-        case KEY_LEFT:
-          controller.left(true);
-        break;
-        case KEY_RIGHT:
-          controller.right(true);
-        break;
-        case KEY_UP:
-          controller.up(true);
-        break;
-        case KEY_DOWN:
-          controller.down(true);
-        break;
-        case KEY_SHOOT:
-          controller.shoot(true);
-        break;
-      };
+      });
 
-    });
+      $(document).keydown(function(ev) {
+        var k = getKey(ev.keyCode);
+
+        switch (k) {
+          case KEY_LEFT:
+            controller.left(true);
+          break;
+          case KEY_RIGHT:
+            controller.right(true);
+          break;
+          case KEY_UP:
+            controller.up(true);
+          break;
+          case KEY_DOWN:
+            controller.down(true);
+          break;
+          case KEY_SHOOT:
+            controller.shoot(true);
+          break;
+        };
+
+      });
+    };
 
     // Background move effect.
     var updateBackground = function(x, y) {
@@ -218,6 +255,12 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
       $('#form-reset').bind('submit', function() {
         return game.restart();
       });
+
+      if (isMobile.any) {
+        captureIphone();
+      } else {
+        captureKeyboard();
+      };
     };
 
     // Binding resize event to resize function.
