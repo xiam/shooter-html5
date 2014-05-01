@@ -5,13 +5,13 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
 
   module.prototype.__gradient = null;
 
-  module.prototype.Draw = function() {
+  module.prototype.draw = function() {
     var dst;
     var r;
 
-    layer.Clear('radar-layer');
+    layer.clear('radar-layer');
 
-    var ctx = layer.Radar;
+    var ctx = layer.radar;
     ctx.save();
       ctx.fillStyle = 'rgba(30, 30, 30, 0.3)';
       ctx.translate(100, 100);
@@ -25,19 +25,19 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
       ctx.fill();
     ctx.restore();
 
-    if (screen.TrackElementId) {
-      var offset = entity.All[screen.TrackElementId].p;
+    if (screen.trackElementId) {
+      var offset = entity.all[screen.trackElementId].p;
 
       var id;
-      for (id in entity.All) {
-        var el = entity.All[id];
+      for (id in entity.all) {
+        var el = entity.all[id];
         var x = (el.p[0] - offset[0])/20;
         var y = (el.p[1] - offset[1])/20;
         var dst = x*x + y*y;
         if (dst < 1e4) {
           ctx.beginPath();
 
-          if (id == screen.TrackElementId) {
+          if (id == screen.trackElementId) {
             ctx.fillStyle = 'rgba(0, 255, 255, 1)';
             r = 2;
           } else {

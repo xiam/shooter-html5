@@ -3,7 +3,7 @@ define(['util', 'layer'], function(util, layer) {
   var all = [];
 
   var module = function(data) {
-    this.Init(data);
+    this.init(data);
   };
 
   // module unique identificator string.
@@ -11,7 +11,7 @@ define(['util', 'layer'], function(util, layer) {
 
   module.prototype.ticks = 0;
 
-  module.prototype.SetType = function(type) {
+  module.prototype.setType = function(type) {
     this.type = type;
   };
 
@@ -32,30 +32,30 @@ define(['util', 'layer'], function(util, layer) {
 
   module.prototype.data = {};
 
-  module.prototype.SetId = function(id) {
+  module.prototype.setId = function(id) {
     this.id = id;
     all[this.id] = this;
   };
 
-  module.prototype.Destroy = function() {
+  module.prototype.destroy = function() {
     delete all[this.id];
   };
 
-  module.prototype.Init = function(data) {
+  module.prototype.init = function(data) {
     this.fillStyle = 'red';
 
     if (data && data.m) {
-      this.fillStyle = layer.Ship.createPattern(document.getElementById(data.m), 'no-repeat');
+      this.fillStyle = layer.ship.createPattern(document.getElementById(data.m), 'no-repeat');
     };
 
-    this.Setup(data);
+    this.setup(data);
 
-    this.Update(data);
+    this.update(data);
 
     this.data = data;
   };
 
-  module.prototype.Update = function(data) {
+  module.prototype.update = function(data) {
     var k;
     for (k in data) {
       var v = data[k];
@@ -67,27 +67,27 @@ define(['util', 'layer'], function(util, layer) {
           this.w = v;
         break;
         case 'p':
-          this.SetPosition(v[0], v[1]);
+          this.setPosition(v[0], v[1]);
         break;
         case 'd':
-          this.SetDirection(v[0], v[1]);
+          this.setDirection(v[0], v[1]);
         break;
         case 's':
-          this.SetSpeed(v);
+          this.setSpeed(v);
         break;
       };
     };
   };
 
-  module.prototype.Setup = function() {
+  module.prototype.setup = function() {
     // Replace.
   };
 
-  module.prototype.SetPosition = function(x, y) {
+  module.prototype.setPosition = function(x, y) {
     this.p = [x, y];
   };
 
-  module.prototype.SetDirection = function(x, y) {
+  module.prototype.setDirection = function(x, y) {
     var d = Math.sqrt(x*x + y*y);
     if (d > 0) {
       this.d = [x/d, y/d];
@@ -95,20 +95,20 @@ define(['util', 'layer'], function(util, layer) {
     };
   };
 
-  module.prototype.Draw = function() {
+  module.prototype.draw = function() {
     // Replace.
   };
 
-  module.prototype.SetSpeed = function(s) {
+  module.prototype.setSpeed = function(s) {
     this.s = s;
   };
 
-  module.prototype.Tick = function(factor) {
+  module.prototype.tick = function(factor) {
     var speed = this.s*factor;
     this.p[0] = this.p[0] + this.d[0]*speed;
     this.p[1] = this.p[1] + this.d[1]*speed;
     return true;
   };
 
-  return { 'Entity': module, 'All': all };
+  return { 'entity': module, 'all': all };
 });

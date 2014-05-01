@@ -26,12 +26,12 @@ define(function() {
   };
 
   // Defines a callback for when control state is changed.
-  module.prototype.OnStateChange = function(fn) {
+  module.prototype.onStateChange = function(fn) {
     this.__onStateChange = fn;
   };
 
   // Shoot instruction.
-  module.prototype.Shoot = function(s) {
+  module.prototype.shoot = function(s) {
     if (s) {
       this.__state.s = 1;
     } else if (this.__state.s == 1) {
@@ -41,7 +41,7 @@ define(function() {
   };
 
   // Left instruction.
-  module.prototype.Left = function(s) {
+  module.prototype.left = function(s) {
     if (s) {
       this.__state.x = -1;
     } else if (this.__state.x == -1) {
@@ -51,7 +51,7 @@ define(function() {
   };
 
   // Right instruction.
-  module.prototype.Right = function(s) {
+  module.prototype.right = function(s) {
     if (s) {
       this.__state.x = 1;
     } else if (this.__state.x == 1) {
@@ -61,7 +61,7 @@ define(function() {
   };
 
   // Up instruction.
-  module.prototype.Up = function(s) {
+  module.prototype.up = function(s) {
     if (s) {
       this.__state.y = -1;
     } else if (this.__state.y == -1) {
@@ -71,7 +71,7 @@ define(function() {
   };
 
   // Down instruction.
-  module.prototype.Down = function(s) {
+  module.prototype.down = function(s) {
     if (s) {
       this.__state.y = 1;
     } else if (this.__state.y == 1) {

@@ -5,33 +5,33 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
     for (i = 0; i < data.length; i++) {
       var line = data[i];
       if (line.fn) {
-        if (line.fn == 'Create') {
+        if (line.fn == 'create') {
           if (line.kind == 'ship') {
-            if (typeof entity.All[line.id] == 'undefined') {
-              var el = new ship.Ship(line.data);
-              el.SetType(line.kind);
-              el.SetId(line.id);
+            if (typeof entity.all[line.id] == 'undefined') {
+              var el = new ship(line.data);
+              el.setType(line.kind);
+              el.setId(line.id);
             };
           } else if (line.kind == 'ship-ai') {
-            if (typeof entity.All[line.id] == 'undefined') {
-              var el = new ship.Ship(line.data);
-              el.SetType(line.kind);
-              el.SetId(line.id);
+            if (typeof entity.all[line.id] == 'undefined') {
+              var el = new ship(line.data);
+              el.setType(line.kind);
+              el.setId(line.id);
             };
           } else if (line.kind == 'fire') {
-            if (typeof entity.All[line.id] == 'undefined') {
-              var el = new fire.Fire(line.data, line.kind);
-              el.SetType(line.kind);
-              el.SetId(line.id);
+            if (typeof entity.all[line.id] == 'undefined') {
+              var el = new fire(line.data, line.kind);
+              el.setType(line.kind);
+              el.setId(line.id);
             };
           } else if (line.kind == 'powerup') {
-            if (typeof entity.All[line.id] == 'undefined') {
-              var el = new powerup.PowerUp(line.data, line.kind);
-              el.SetType(line.kind);
-              el.SetId(line.id);
+            if (typeof entity.all[line.id] == 'undefined') {
+              var el = new powerup(line.data, line.kind);
+              el.setType(line.kind);
+              el.setId(line.id);
             };
           };
-        } else if (line.fn == 'Scores') {
+        } else if (line.fn == 'scores') {
           var table = $('#highscores');
           var tbody = table.find('tbody').empty();
           var j;
@@ -44,7 +44,7 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
           };
           $('#score-end-value').text($('#score-value').text());
         } else {
-          var el = entity.All[line.id];
+          var el = entity.all[line.id];
           if (typeof el != 'undefined') {
             el[line.fn](line.data || {});
           };
@@ -56,7 +56,7 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
   // Game connection and main interface.
   var module = function() {};
 
-  module.prototype.Init = function() {
+  module.prototype.init = function() {
     $('.frame-overlay').hide();
 
     $('#instructions').show();
@@ -68,33 +68,33 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
     $('#gamertag')[0].focus();
   };
 
-  module.prototype.HideInstructions = function() {
+  module.prototype.hideInstructions = function() {
     $('#instructions').fadeOut('slow');
   };
 
-  module.prototype.Reset = function() {
+  module.prototype.reset = function() {
     location.reload();
 
     return false;
   };
 
-  module.prototype.Connect = function() {
+  module.prototype.connect = function() {
     $that = this;
 
-    if (ws.Connected() == false) {
-      ws.Connect(WEBSOCKET_SERVICE);
-      ws.OnReceive(update);
+    if (ws.connected() == false) {
+      ws.connect(WEBSOCKET_SERVICE);
+      ws.onReceive(update);
 
       var name = $.trim($('#gamertag').val());
       if (window.localStorage) {
         window.localStorage.name = name;
       };
 
-      ws.OnConnect(function() {
-        ws.Send({
+      ws.onConnect(function() {
+        ws.send({
           'name': name
         });
-        $that.HideInstructions();
+        $that.hideInstructions();
       });
 
     };
@@ -102,11 +102,11 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
     return false;
   };
 
-  module.prototype.End = function() {
+  module.prototype.end = function() {
     $('.frame-overlay').hide();
     $('#results').fadeIn();
     //$('#btn-restart')[0].focus();
-    ws.Close();
+    ws.close();
   };
 
   return new module();

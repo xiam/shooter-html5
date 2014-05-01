@@ -5,24 +5,24 @@ var WEBSOCKET_SERVICE = 'ws://127.0.0.1:3223/w/';
 var FRAMES_PER_SECOND = 24;
 var FRAME_INTERVAL    = 1000/FRAMES_PER_SECOND;
 
-require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws', 'screen'],
-  function($, util, game, controller, layer, entity, radar, ws, screen) {
+require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws', 'screen', 'lifebar'],
+  function($, util, game, controller, layer, entity, radar, ws, screen, lifebar) {
 
-    controller.OnStateChange(function(state) {
-      ws.Send(state);
+    controller.onStateChange(function(state) {
+      ws.send(state);
     });
 
     // Draw function.
     var draw = function(el) {
 
-      var x = screen.Offset[0] + el.p[0] + screen.Correction[0];
-      var y = screen.Offset[1] + el.p[1] + screen.Correction[1];
+      var x = screen.offset[0] + el.p[0] + screen.correction[0];
+      var y = screen.offset[1] + el.p[1] + screen.correction[1];
       var off = 200;
 
-      if (x >= -off && x <= (screen.Size[0]+off) && y >= -off && y <= (screen.Size[1]+off)) {
-        var ctx = layer.Ship;
+      if (x >= -off && x <= (screen.size[0]+off) && y >= -off && y <= (screen.size[1]+off)) {
+        var ctx = layer.ship;
 
-        if (screen.TrackElementId == el.id) {
+        if (screen.trackElementId == el.id) {
           updateBackground(x, y);
 
           ctx.beginPath();
@@ -32,9 +32,8 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
             var beat = 30 - 25*((lifebar.limit - lifebar.current)/lifebar.limit);
             var alpha = Math.abs(Math.sin(el.ticks/beat));
 
-            ctx.fillStyle = 'rgba(255, 255, 255, '+(alpha*0.05)+');'
-            ctx.strokeStyle = 'rgba(255, 255, 255, '+((1-alpha)*0.05)+');'
-            //ctx.strokeStyle = 'rgba(255, 255, 255, 0.05);'
+            ctx.fillStyle = 'rgba(255, 255, 255, '+(alpha*0.05)+')';
+            ctx.strokeStyle = 'rgba(255, 255, 255, '+((1-alpha)*0.05)+')';
             ctx.lineWidth = 2;
 
             ctx.arc(0, 0, Math.max(el.w, el.h)*0.6, 0, Math.PI*2);
@@ -64,22 +63,22 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
     var frame = function(step) {
       var id;
 
-      layer.Clear('ship-layer');
+      layer.clear('ship-layer');
 
-      for (id in entity.All) {
-        if (entity.All[id].Tick(step)) {
-          draw(entity.All[id]);
+      for (id in entity.all) {
+        if (entity.all[id].tick(step)) {
+          draw(entity.all[id]);
         };
       };
 
-      radar.Draw();
+      radar.draw();
     };
 
     var last = 0;
 
     var loop = function() {
       requestAnimationFrame(loop);
-      if (ws.Connected()) {
+      if (ws.connected()) {
         var curr = +(new Date());
         if (last > 0) {
           var elapsed = curr - last;
@@ -127,19 +126,19 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
 
       switch (k) {
         case KEY_LEFT:
-          controller.Left(false);
+          controller.left(false);
         break;
         case KEY_RIGHT:
-          controller.Right(false);
+          controller.right(false);
         break;
         case KEY_UP:
-          controller.Up(false);
+          controller.up(false);
         break;
         case KEY_DOWN:
-          controller.Down(false);
+          controller.down(false);
         break;
         case KEY_SHOOT:
-          controller.Shoot(false);
+          controller.shoot(false);
         break;
       };
 
@@ -150,19 +149,19 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
 
       switch (k) {
         case KEY_LEFT:
-          controller.Left(true);
+          controller.left(true);
         break;
         case KEY_RIGHT:
-          controller.Right(true);
+          controller.right(true);
         break;
         case KEY_UP:
-          controller.Up(true);
+          controller.up(true);
         break;
         case KEY_DOWN:
-          controller.Down(true);
+          controller.down(true);
         break;
         case KEY_SHOOT:
-          controller.Shoot(true);
+          controller.shoot(true);
         break;
       };
 
@@ -172,26 +171,26 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
     var updateBackground = function(x, y) {
       var fixed = false;
 
-      var lm = screen.Size[0]*screen.Bound; // Leftmost
-      var tm = screen.Size[1]*screen.Bound; // Topmost
-      var rm = screen.Size[0]*(1.0 - screen.Bound); // Rightmost
-      var bm = screen.Size[1]*(1.0 - screen.Bound); // Bottommost
+      var lm = screen.size[0]*screen.bound; // Leftmost
+      var tm = screen.size[1]*screen.bound; // Topmost
+      var rm = screen.size[0]*(1.0 - screen.bound); // Rightmost
+      var bm = screen.size[1]*(1.0 - screen.bound); // Bottommost
 
       if (x < lm) {
-        screen.Correction[0] += (lm - x);
+        screen.correction[0] += (lm - x);
         fixed = true;
       };
       if (y < tm) {
-        screen.Correction[1] += (tm - y);
+        screen.correction[1] += (tm - y);
         fixed = true;
       };
 
       if (x > rm) {
-        screen.Correction[0] += (rm - x);
+        screen.correction[0] += (rm - x);
         fixed = true;
       };
       if (y > bm) {
-        screen.Correction[1] += (bm - y);
+        screen.correction[1] += (bm - y);
         fixed = true;
       };
 
@@ -199,32 +198,32 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
         var el = document.getElementById('stars-layer');
 
         if (!util.__backgroundPattern) {
-          util.__backgroundPattern = layer.Stars.createPattern(document.getElementById('stars-background'), 'repeat');
+          util.__backgroundPattern = layer.stars.createPattern(document.getElementById('stars-background'), 'repeat');
         };
 
-        var ctx = layer.Stars;
+        var ctx = layer.stars;
 
         ctx.save();
           ctx.fillStyle = util.__backgroundPattern;
-          ctx.translate(screen.Correction[0], screen.Correction[1]);
-          ctx.fillRect(-screen.Correction[0], -screen.Correction[1], el.width, el.height);
+          ctx.translate(screen.correction[0], screen.correction[1]);
+          ctx.fillRect(-screen.correction[0], -screen.correction[1], el.width, el.height);
         ctx.restore();
       };
     };
 
     var attachEvents = function() {
       $('#form-handle').bind('submit', function() {
-        return game.Connect();
+        return game.connect();
       });
       $('#form-reset').bind('submit', function() {
-        return game.Restart();
+        return game.restart();
       });
     };
 
     // Binding resize event to resize function.
     $(window).resize(
       function() {
-        util.ResizeWindow();
+        util.resizeWindow();
       }
     );
 
@@ -232,8 +231,8 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
     $(document).ready(
       function() {
         attachEvents();
-        util.ResizeWindow();
-        game.Init();
+        util.resizeWindow();
+        game.init();
       }
     );
 

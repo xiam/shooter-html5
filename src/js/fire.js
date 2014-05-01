@@ -1,13 +1,13 @@
 define(['util', 'entity', 'sound'], function(util, entity, sound) {
 
-  var module = util.Extend(entity.Entity);
+  var module = util.extend(entity.entity);
 
-  module.prototype.Setup = function(data) {
+  module.prototype.setup = function(data) {
     // Fires a sound if the beam is near the main ship.
-    if (util.IsNear(data.p[0], data.p[1])) {
-      sound.Fire();
+    if (util.isNear(data.p[0], data.p[1])) {
+      sound.fire();
     };
   };
 
-  return { 'Fire': module };
+  return module;
 });

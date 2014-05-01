@@ -7,10 +7,10 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
   };
 
   // Resizes overlays.
-  module.ResizeWindow = function() {
+  module.resizeWindow = function() {
     module.__backgroundPattern = null;
 
-    var size = screen.Dimensions();
+    var size = screen.dimensions();
 
     $('.overlay').css({
       width: size[0] + 'px',
@@ -20,9 +20,9 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
     $('canvas.layer').attr('width', size[0]).attr('height', size[1]);
   };
 
-  module.IsNear = function(x, y) {
-    if (screen.TrackElementId != "") {
-      var el = entity.All[screen.TrackElementId];
+  module.isNear = function(x, y) {
+    if (screen.trackElementId != "") {
+      var el = entity.all[screen.trackElementId];
       var xdiff = Math.abs(el.p[0] - x);
       var ydiff = Math.abs(el.p[1] - y);
       var mdiff = Math.max(xdiff, ydiff);
@@ -33,7 +33,7 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
     return false;
   };
 
-  module.Place = function(i) {
+  module.place = function(i) {
     var i = parseInt(i);
     switch (i) {
       case 1: return '1st';
@@ -44,11 +44,11 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
     return i + '';
   };
 
-  module.Extend = function(o) {
+  module.extend = function(o) {
     var fn = function(data) {
       this.parent = new o();
-      if (this.Init) {
-        this.Init(data);
+      if (this.init) {
+        this.init(data);
       }
     };
     for (i in o.prototype) {

@@ -13,24 +13,24 @@ define(['json2'], function() {
   module.prototype.s = null;
 
   // Global connection status.
-  module.prototype.connected = false;
+  module.prototype.__connected = false;
 
-  module.prototype.Connected = function() {
-    return this.connected;
+  module.prototype.connected = function() {
+    return this.__connected;
   };
 
   // Define callback for successful connection.
-  module.prototype.OnConnect = function(fn) {
+  module.prototype.onConnect = function(fn) {
     this.__connectFn = fn;
   };
 
   // Define callback for data reception.
-  module.prototype.OnReceive = function(fn) {
+  module.prototype.onReceive = function(fn) {
     this.__receiveFn = fn;
   };
 
   // Closes websocket.
-  module.prototype.Close = function() {
+  module.prototype.close = function() {
     if (this.s) {
       this.s.close();
       this.s = null;
@@ -38,26 +38,26 @@ define(['json2'], function() {
   };
 
   // Initiates connection against the given host.
-  module.prototype.Connect = function(url) {
+  module.prototype.connect = function(url) {
 
-    this.Close();
+    this.close();
 
     this.s = new WebSocket(url);
 
     var $that = this;
 
     this.s.onerror = function(ev) {
-      console.log('Ws.Error:', ev);
+      console.log('Ws.error:', ev);
     };
 
     this.s.onopen = function() {
-      $that.connected = true;
+      $that.__connected = true;
       $that.__connectFn();
       console.log('connected');
     };
 
     this.s.onclose = function() {
-      $that.connected = false;
+      $that.__connected = false;
     };
 
     this.s.onmessage = function(message) {
@@ -78,7 +78,7 @@ define(['json2'], function() {
   };
 
   // Sends a JSON encoded chunk of data.
-  module.prototype.Send = function(data) {
+  module.prototype.send = function(data) {
     var message = JSON.stringify(data);
     this.s.send(message);
   };

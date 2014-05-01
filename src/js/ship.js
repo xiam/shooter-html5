@@ -1,30 +1,30 @@
 define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score'], function($, util, entity, screen, lifebar, sound, score) {
 
-  var module = util.Extend(entity.Entity);
+  var module = util.extend(entity.entity);
 
-  module.prototype.Ident = function(data) {
+  module.prototype.ident = function(data) {
     // Centering ship.
-    var size = screen.Dimensions();
+    var size = screen.dimensions();
 
-    screen.Offset = [
+    screen.offset = [
       -this.p[0],
       -this.p[1]
     ];
 
     // Lifebar limits.
-    lifebar.SetLimit(this.data.L);
+    lifebar.setLimit(this.data.L);
 
     // Track this element.
-    screen.TrackElementId = this.id;
+    screen.trackElementId = this.id;
   };
 
   module.prototype.life = 0;
 
   module.prototype.points = 0;
 
-  module.prototype.Hit = function() {
+  module.prototype.hit = function() {
 
-    if (this.IsMain()) {
+    if (this.isMain()) {
 
       if (this.__hitTimer) {
         window.clearTimeout(this.__hitTimer);
@@ -40,16 +40,16 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score'], func
         }, 500
       );
 
-      sound.Hit();
+      sound.hit();
     } else {
-      if (util.IsNear(this.d[0], this.d[1])) {
-        sound.HitOther();
+      if (util.isNear(this.d[0], this.d[1])) {
+        sound.hitOther();
       };
     };
 
   };
 
-  module.prototype.Update = function(data) {
+  module.prototype.update = function(data) {
     var k;
     for (k in data) {
       var v = data[k];
@@ -61,43 +61,44 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score'], func
           this.w = v;
         break;
         case 'p':
-          this.SetPosition(v[0], v[1]);
+          this.setPosition(v[0], v[1]);
         break;
         case 'd':
-          this.SetDirection(v[0], v[1]);
+          this.setDirection(v[0], v[1]);
         break;
         case 's':
-          this.SetSpeed(v);
+          this.setSpeed(v);
         break;
         case 'L':
           if (v < this.life) {
-            this.Hit();
+            this.hit();
           };
           this.life = v;
-          if (this.IsMain()) {
-            lifebar.SetCurrent(v);
+          if (this.isMain()) {
+            lifebar.setCurrent(v);
           };
         break;
         case 'P':
-          if (this.IsMain()) {
-            score.Set(v);
+          if (this.isMain()) {
+            score.set(v);
           };
         break;
       };
     };
   };
 
-  module.prototype.Destroy = function() {
-    if (this.IsMain()) {
-      game.End();
+  module.prototype.destroy = function() {
+    if (this.isMain()) {
+      game.end();
     } else {
-      delete entity.All[this.id];
+      delete entity.all[this.id];
     };
   };
 
-  module.prototype.IsMain = function() {
-    return (screen.TrackElementId == this.id);
+  module.prototype.isMain = function() {
+    return (screen.trackElementId == this.id);
   };
 
-  return { 'Ship': module };
+  return module;
+
 });

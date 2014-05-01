@@ -1,7 +1,7 @@
 define(['sm2'], function() {
 
   var module = function() {
-    this.Init();
+    this.init();
   };
 
   module.prototype.volume = 100;
@@ -10,7 +10,7 @@ define(['sm2'], function() {
   module.prototype.__hit      = null;
   module.prototype.__hitOther = null;
 
-  module.prototype.Init = function() {
+  module.prototype.init = function() {
     var $that = this;
 
     soundManager.setup({
@@ -31,19 +31,19 @@ define(['sm2'], function() {
     });
   };
 
-  module.prototype.Fire = function() {
+  module.prototype.fire = function() {
     if (this.__fire) {
       this.__fire.play();
     };
   };
 
-  module.prototype.HitOther = function() {
+  module.prototype.hitOther = function() {
     if (this.__hitOther) {
       this.__hitOther.play();
     };
   };
 
-  module.prototype.Hit = function() {
+  module.prototype.hit = function() {
     if (this.__hit) {
       this.__hit.play();
     };
