@@ -190,6 +190,7 @@ button {
 }
 #highscores td {
   padding: 8px;
+  white-space: nowrap;
 }
 #highscores th.place {
   width: 120px;
