@@ -93,9 +93,8 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score', 'ws']
   module.prototype.destroy = function() {
     if (this.isMain()) {
       ws.close();
-    } else {
-      delete entity.all[this.id];
     };
+    delete entity.all[this.id];
   };
 
   module.prototype.isMain = function() {
