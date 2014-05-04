@@ -90,22 +90,22 @@ td.points {
 }
 
 @keyframes shake{
-  0% { -webkit-transform: translate(6px, 0); }
-  25% { -webkit-transform: translate(6px, 6px); }
-  50% { -webkit-transform: translate(-6px, 0); }
-  75% { -webkit-transform: translate(-6px, 6px); }
-  100% { -webkit-transform: translate(0, 0); }
+  0% { transform: translate(6px, 0); }
+  25% { transform: translate(6px, 6px); }
+  50% { transform: translate(-6px, 0); }
+  75% { transform: translate(-6px, 6px); }
+  100% { transform: translate(0, 0); }
 }
 
-@-moz-keyframes shake{
-  0% { -webkit-transform: translate(6px, 0); }
-  25% { -webkit-transform: translate(6px, 6px); }
-  50% { -webkit-transform: translate(-6px, 0); }
-  75% { -webkit-transform: translate(-6px, 6px); }
-  100% { -webkit-transform: translate(0, 0); }
+@-moz-keyframes mozshake {
+  0% { -moz-transform: translate(6px, 0); }
+  25% { -moz-transform: translate(6px, 6px); }
+  50% { -moz-transform: translate(-6px, 0); }
+  75% { -moz-transform: translate(-6px, 6px); }
+  100% { -moz-transform: translate(0, 0); }
 }
 
-@-webkit-keyframes shake {
+@-webkit-keyframes webkitshake {
   0% { -webkit-transform: translate(6px, 0); }
   25% { -webkit-transform: translate(6px, 6px); }
   50% { -webkit-transform: translate(-6px, 0); }
@@ -119,12 +119,12 @@ td.points {
   animation-iteration-count: 3;
   animation-timing-function: linear;
 
-  -moz-animation-name: shake;
+  -moz-animation-name: mozshake;
   -moz-animation-duration: 150ms;
   -moz-animation-iteration-count: 3;
   -moz-animation-timing-function: linear;
 
-  -webkit-animation-name: shake;
+  -webkit-animation-name: webkitshake;
   -webkit-animation-duration: 150ms;
   -webkit-animation-iteration-count: 3;
   -webkit-animation-timing-function: linear;
