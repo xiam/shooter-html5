@@ -17,6 +17,11 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
       height: size[1] + 'px'
     });
 
+    screen.correction = [
+      size[0]/2,
+      size[1]/2
+    ];
+
     $('canvas.layer').attr('width', size[0]).attr('height', size[1]);
   };
 

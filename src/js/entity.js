@@ -15,6 +15,7 @@ define(['util', 'layer'], function(util, layer) {
     this.type = type;
   };
 
+  module.prototype.N = '';
   module.prototype.w = 0;
   module.prototype.h = 0;
 
@@ -60,6 +61,9 @@ define(['util', 'layer'], function(util, layer) {
     for (k in data) {
       var v = data[k];
       switch (k) {
+        case 'N':
+          this.N = v;
+        break;
         case 'h':
           this.h = v;
         break;

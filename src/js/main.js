@@ -9,7 +9,6 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
 
   function($, util, game, controller, layer, entity, radar, ws, screen, lifebar, isMobile) {
 
-
     // Binding controller change to websocket send.
     controller.onStateChange(function(state) {
       ws.send(state);
@@ -20,6 +19,7 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
 
       var x = screen.offset[0] + el.p[0] + screen.correction[0];
       var y = screen.offset[1] + el.p[1] + screen.correction[1];
+
       var off = 200;
 
       if (x >= -off && x <= (screen.size[0]+off) && y >= -off && y <= (screen.size[1]+off)) {
@@ -28,9 +28,9 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
         if (screen.trackElementId == el.id) {
           updateBackground(x, y);
 
-          ctx.beginPath();
-
           ctx.save();
+            ctx.beginPath();
+
             ctx.translate(x, y);
             var beat = 30 - 25*((lifebar.limit - lifebar.current)/lifebar.limit);
             var alpha = Math.abs(Math.sin(el.ticks/beat));
@@ -43,14 +43,23 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
             ctx.stroke();
             ctx.fill();
             ctx.closePath();
+
           ctx.restore();
         };
 
-        ctx.beginPath();
         ctx.save();
+        ctx.beginPath();
           ctx.translate(x, y);
+
+          if (el.N) {
+            ctx.font = '16px Share Tech Mono';
+            ctx.fillStyle = '#0ff';
+            ctx.fillText(el.N, -80, -80);
+          };
+
           ctx.rotate(el.t);
           ctx.translate(-el.w/2, -el.h/2);
+
           ctx.fillStyle = el.fillStyle || 'red';
           ctx.fillRect(0, 0, el.w, el.h);
         ctx.closePath();
@@ -271,7 +280,7 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
     );
 
     // Ready to start game?
-    $(document).ready(
+    $(window).ready(
       function() {
         attachEvents();
         util.resizeWindow();

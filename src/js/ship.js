@@ -4,7 +4,7 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score', 'ws']
 
   module.prototype.ident = function(data) {
     // Centering ship.
-    var size = screen.dimensions();
+    //var size = screen.dimensions();
 
     screen.offset = [
       -this.p[0],
@@ -54,6 +54,9 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score', 'ws']
     for (k in data) {
       var v = data[k];
       switch (k) {
+        case 'N':
+          this.N = v;
+        break;
         case 'h':
           this.h = v;
         break;
@@ -96,7 +99,10 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score', 'ws']
   };
 
   module.prototype.isMain = function() {
-    return (screen.trackElementId == this.id);
+    if (screen.trackElementId) {
+      return (screen.trackElementId == this.id);
+    };
+    return false;
   };
 
   return module;
