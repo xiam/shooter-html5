@@ -1,5 +1,5 @@
 // Websocker server address.
-var WEBSOCKET_SERVICE = 'ws://10.0.0.148:3223/w/';
+var WEBSOCKET_SERVICE = 'ws://'+location.hostname+'/w/';
 
 // Frames configuration.
 var FRAMES_PER_SECOND = 24;
