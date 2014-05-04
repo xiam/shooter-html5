@@ -5,7 +5,7 @@ var WEBSOCKET_SERVICE = 'ws://10.0.0.148:3223/w/';
 var FRAMES_PER_SECOND = 24;
 var FRAME_INTERVAL    = 1000/FRAMES_PER_SECOND;
 
-require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws', 'screen', 'lifebar', 'isMobile', 'gyro'],
+require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws', 'screen', 'lifebar', 'isMobile'],
 
   function($, util, game, controller, layer, entity, radar, ws, screen, lifebar, isMobile) {
 
@@ -91,34 +91,27 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
       };
     };
 
-    var captureIphone = function() {
-      var last = {
-        'alpha': 0,
-        'beta': 0,
-        'gamma': 0,
-        'x': 0,
-        'y': 0,
-        'z': 0
+
+    var phoneReposition = function() {
+      var reposition = function(el) {
+        el.height(el.width());
+        //el.css('top', (($(window).height() - el.outerHeight())/2) + 'px');
+        //el.css('line-height', el.height()+'px');
       };
-      gyro.startTracking(function(o) {
-        var diff = last.x - o.x;
-        var eps = 0.5;
-        if (diff < eps) {
-          controller.left(true);
-        } else if (diff > eps) {
-          controller.right(true);
-        } else {
-          controller.right(false);
-          controller.left(false);
-        };
-        last = {
-          'x': o.x,
-          'y': o.y,
-          'z': o.z,
-          'alpha':  o.alpha,
-          'beta':   o.beta,
-          'gamma':  o.gamma
-        };
+      reposition($('#osc-fire'));
+      reposition($('#osc-arrows'));
+      reposition($('.osc-arrow'));
+    };
+
+    var captureIphone = function() {
+      phoneReposition();
+      $('.osc-button').bind('touchstart', function() {
+        $(this).addClass('active');
+        controller[$(this).data('value')](true);
+      });
+      $('.osc-button').bind('touchend', function() {
+        $(this).removeClass('active');
+        controller[$(this).data('value')](false);
       });
     };
 
@@ -256,6 +249,10 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
         return game.restart();
       });
 
+      $('body').bind('touchmove', function(ev) {
+        ev.preventDefault();
+      });
+
       if (isMobile.any) {
         captureIphone();
       } else {
@@ -267,6 +264,9 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
     $(window).resize(
       function() {
         util.resizeWindow();
+        if (isMobile.any) {
+          phoneReposition();
+        };
       }
     );
 
@@ -275,6 +275,11 @@ require(['jquery', 'util', 'game', 'controller', 'layer', 'entity', 'radar', 'ws
       function() {
         attachEvents();
         util.resizeWindow();
+        if (isMobile.any) {
+          $('.desktop-only').hide();
+        } else {
+          $('.mobile-only').hide();
+        };
         game.init();
       }
     );

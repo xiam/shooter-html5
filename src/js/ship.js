@@ -1,4 +1,4 @@
-define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score'], function($, util, entity, screen, lifebar, sound, score) {
+define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score', 'ws'], function($, util, entity, screen, lifebar, sound, score, ws) {
 
   var module = util.extend(entity.entity);
 
@@ -89,7 +89,7 @@ define(['jquery', 'util', 'entity', 'screen', 'lifebar', 'sound', 'score'], func
 
   module.prototype.destroy = function() {
     if (this.isMain()) {
-      game.end();
+      ws.close();
     } else {
       delete entity.all[this.id];
     };

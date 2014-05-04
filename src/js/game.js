@@ -1,4 +1,15 @@
-define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, entity, ship, fire, powerup) {
+define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup', 'isMobile'], function($, ws, entity, ship, fire, powerup, isMobile) {
+
+  var place = function(i) {
+    var i = parseInt(i);
+    switch (i) {
+      case 1: return '1st';
+      case 2: return '2nd';
+      case 3: return '3rd';
+      default: return i + 'th';
+    }
+    return i + '';
+  };
 
   var update = function(data) {
     var i;
@@ -35,7 +46,11 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
           var table = $('#highscores');
           var tbody = table.find('tbody').empty();
           var j;
-          for (j = 0; j < line.data.length; j++) {
+          var limit = 1000;
+          if (isMobile.any) {
+            limit = 3;
+          };
+          for (j = 0; j < Math.min(line.data.length, limit); j++) {
             var tr = $('<tr>');
             tr.append($('<td>').text(place(j + 1)).addClass('place'));
             tr.append($('<td>').text(line.data[j].name));
@@ -54,9 +69,15 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup'], function($, ws, en
   };
 
   // Game connection and main interface.
-  var module = function() {};
+  var module = function() {
+    var $that = this;
+    ws.onClose(function() {
+      $that.end();
+    });
+  };
 
   module.prototype.init = function() {
+    $('#loading').fadeOut();
     $('.frame-overlay').hide();
 
     $('#instructions').show();

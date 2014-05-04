@@ -5,6 +5,7 @@ define(['json2'], function() {
 
   module.prototype.__connectFn = function() {};
   module.prototype.__receiveFn = function() {};
+  module.prototype.__closeFn = function() {};
 
   // Extra decoder, use a nil value for no decoding.
   module.prototype.decoder = null;
@@ -29,11 +30,17 @@ define(['json2'], function() {
     this.__receiveFn = fn;
   };
 
+  // Define callback for websocket closing.
+  module.prototype.onClose = function(fn) {
+    this.__closeFn = fn;
+  };
+
   // Closes websocket.
   module.prototype.close = function() {
     if (this.s) {
       this.s.close();
       this.s = null;
+      this.__closeFn();
     };
   };
 

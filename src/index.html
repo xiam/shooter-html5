@@ -4,9 +4,10 @@
     <title>shooter.io - Space Shooter (BETA)</title>
     <link href="http://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet" type="text/css">
 
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=0.5; maximum-scale=1.0; width=device-width; user-scalable=0"/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <link rel="stylesheet" media="all" href="css/main.css">
 
@@ -28,6 +29,8 @@
     </script>
   </head>
   <body>
+
+    <div id="loading">loading...</div>
 
     <!-- Assets preloader -->
     <div id="assets">
@@ -82,21 +85,20 @@
       <div class="frame">
         <h1>shooter.io</h1>
 
-        <small><b>Please reduce the volume of your speakers.</b> This is a work in progress that may crash anytime :-). Availabe *ONLY* for Chrome on desktop.</small>
-
-        <ul>
-          <li>
-            Use <span class="keys">[← ↑ → ↓]</span> to move.
-          </li>
-          <li>
-            Press <span class="keys">[space]</span> to shoot.
-          </li>
-        </ul>
-
+        <div class="desktop-only">
+          <ul class="instructions">
+            <li>
+              Use <span class="keys">[← ↑ → ↓]</span> to move.
+            </li>
+            <li>
+              Press <span class="keys">[space]</span> to shoot.
+            </li>
+          </ul>
+        </div>
 
         <form id="form-handle">
           <label>
-            Your handle:
+            Name:
             <input type="text" id="gamertag" autocomplete="off" autocorrect="off" autocapitalize="off" />
           </label>
           <button id="start" type="submit">Start &raquo;</button>
@@ -145,7 +147,7 @@
     <canvas class="layer overlay" id="ship-layer"></canvas>
 
     <!-- Radar layer -->
-    <canvas id="radar-layer" width="200" height="200"></canvas>
+    <canvas id="radar-layer"></canvas>
 
     <!-- Life bar -->
     <div id="life">
@@ -164,9 +166,21 @@
     <!-- Hit effects -->
     <div id="fx-hit" class="overlay hidden"></div>
 
+    <!-- On screen controller -->
+    <div id="osc" class="mobile-only">
+      <div id="osc-arrows">
+        <div id="osc-arrow-up" class="osc-arrow osc-button" data-value="up"></div>
+        <div id="osc-arrow-left" class="osc-arrow osc-button" data-value="left"></div>
+        <div id="osc-arrow-right" class="osc-arrow osc-button" data-value="right"></div>
+        <div id="osc-arrow-down" class="osc-arrow osc-button" data-value="down"></div>
+      </div>
+      <div id="osc-fire" class="osc-button" data-value="shoot"></div>
+    </div>
+
     <script type="text/javascript">
       require(['main']);
     </script>
+
 
   </body>
 </html>

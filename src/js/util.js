@@ -33,17 +33,6 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
     return false;
   };
 
-  module.place = function(i) {
-    var i = parseInt(i);
-    switch (i) {
-      case 1: return '1st';
-      case 2: return '2nd';
-      case 3: return '3rd';
-      default: return i + 'th';
-    }
-    return i + '';
-  };
-
   module.extend = function(o) {
     var fn = function(data) {
       this.parent = new o();

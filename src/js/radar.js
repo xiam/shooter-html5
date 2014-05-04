@@ -1,27 +1,69 @@
-define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entity) {
+define(['jquery', 'layer', 'screen', 'entity', 'isMobile'], function($, layer, screen, entity, isMobile) {
 
   // Radar prototype.
-  var module = function() {};
+  var module = function() {
+    this.el = $('#radar-layer');
+    this.resize();
+    var $that = this;
+
+    $(window).resize(function() {
+      $that.resize();
+    });
+  };
 
   module.prototype.__gradient = null;
+
+  module.prototype.width = 0;
+
+  module.prototype.resize = function() {
+    // Size is 20%.
+    this.width = $(window).width()*0.2;
+
+    this.el.width(this.width);
+    this.el.height(this.width);
+    this.el.css({
+      'width': this.width + 'px',
+      'height': this.width + 'px'
+    });
+    this.el.attr('width', this.width);
+    this.el.attr('height', this.width);
+
+    // Force gradient reset.
+    this.__gradient = null;
+
+    // Mobile features this bar at top.
+    if (isMobile.any) {
+      this.el.css({
+        'top': '10px',
+        'left': '10px'
+      });
+    } else {
+      this.el.css({
+        'bottom': '10px',
+        'left': '10px'
+      });
+    };
+  };
 
   module.prototype.draw = function() {
     var dst;
     var r;
+
+    var mid = this.width/2;
 
     layer.clear('radar-layer');
 
     var ctx = layer.radar;
     ctx.save();
       ctx.fillStyle = 'rgba(30, 30, 30, 0.3)';
-      ctx.translate(100, 100);
+      ctx.translate(mid, mid);
       if (!this.__gradient) {
-        this.__gradient = ctx.createRadialGradient(0, 0, 50, 0, 0, 100);
+        this.__gradient = ctx.createRadialGradient(0, 0, mid/2, 0, 0, mid);
         this.__gradient.addColorStop(0, 'rgba(0, 0, 0, 0.1)');
         this.__gradient.addColorStop(1, 'rgba(0, 128, 128, 0.5)');
       };
       ctx.fillStyle = this.__gradient;
-      ctx.arc(0, 0, 100, 0, Math.PI*2);
+      ctx.arc(0, 0, mid, 0, Math.PI*2);
       ctx.fill();
     ctx.restore();
 
@@ -53,7 +95,7 @@ define(['jquery', 'layer', 'screen', 'entity'], function($, layer, screen, entit
             };
           };
 
-          ctx.arc(x + 100, y + 100, r, 0, Math.PI*2);
+          ctx.arc(x + mid, y + mid, r, 0, Math.PI*2);
 
           ctx.fill();
           ctx.closePath();

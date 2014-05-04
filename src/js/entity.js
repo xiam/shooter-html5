@@ -45,7 +45,7 @@ define(['util', 'layer'], function(util, layer) {
     this.fillStyle = 'red';
 
     if (data && data.m) {
-      this.fillStyle = layer.ship.createPattern(document.getElementById(data.m), 'no-repeat');
+      this.fillStyle = layer.ship.createPattern(document.getElementById(data.m), 'repeat');
     };
 
     this.setup(data);

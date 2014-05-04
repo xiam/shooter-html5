@@ -8,6 +8,12 @@ body {
   background-color: #1F3240;
   font-family: Share Tech Mono;
   color: #E3E1CA;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #fx-hit {
   background-color: #f00;
@@ -43,8 +49,6 @@ body {
   font-size: 40pt;
   color: #fff;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
 }
 
 .frame-overlay {
@@ -57,7 +61,7 @@ body {
   z-index: 99;
 }
 .frame {
-  width: 30%;
+  width: 60%;
   margin: 0 auto;
 }
 .middle {
@@ -69,6 +73,9 @@ td.points {
 }
 .frame table {
   width: 100%;
+}
+.frame .instructions {
+  text-align: center;
 }
 .frame h2, .frame h3 {
   text-align: center;
@@ -211,11 +218,74 @@ h2, h1 {
 #assets {
   display: none;
 }
+#assets img {
+  border: none;
+}
 
 #radar-layer {
-  width: 200px;
-  height: 200px;
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+}
+
+#osc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+#osc .active {
+  background-color: gray !important;
+}
+#osc-fire {
+  display: block;
+  width: 16.65%;
+  height: 1%;
+  position: absolute;
+  bottom: 14.65%;
+  background: url('../assets/control-shoot.png') no-repeat center center;
+}
+#osc-arrows {
+  width: 50%;
+  height: 50%;
+  overflow: visible;
+  display: block;
+  position: absolute;
+  right: 0px;
+  text-align: center;
+  bottom: 0px;
+}
+#osc-arrows .osc-arrow {
+  width: 33.33%;
+  height: 33.33%;
+  display: block;
+}
+#osc-arrow-up {
+  margin-left: 33.33%;
+  margin-right: 33.3%;
+  background: url('../assets/control-up.png') no-repeat center center;
+}
+#osc-arrow-left {
+  float: left;
+  background: url('../assets/control-left.png') no-repeat center center;
+}
+#osc-arrow-right {
+  float: right;
+  background: url('../assets/control-right.png') no-repeat center center;
+}
+#osc-arrow-down {
+  margin-left: 33.33%;
+  background: url('../assets/control-down.png') no-repeat center center;
+  margin-right: 33.33%;
+  margin-top: 33.33%;
+}
+#loading {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  background: black;
+  overflow: hidden;
+  text-align: center;
+  font-size: 2em;
+  color: #eee;
+  padding-top: 2em;
 }
