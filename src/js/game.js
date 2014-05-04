@@ -1,4 +1,4 @@
-define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup', 'isMobile'], function($, ws, entity, ship, fire, powerup, isMobile) {
+define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup', 'isMobile', 'sound'], function($, ws, entity, ship, fire, powerup, isMobile, sound) {
 
   var place = function(i) {
     var i = parseInt(i);
@@ -101,6 +101,10 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup', 'isMobile'], functi
 
   module.prototype.connect = function() {
     $that = this;
+
+    if ($('#enable-sound').is(':checked')) {
+      sound.setStatus(true);
+    };
 
     if (ws.connected() == false) {
       ws.connect(WEBSOCKET_SERVICE);

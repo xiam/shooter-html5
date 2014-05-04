@@ -1,1 +1,0 @@
-gyro.min.js

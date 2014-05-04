@@ -289,3 +289,7 @@ h2, h1 {
   color: #eee;
   padding-top: 2em;
 }
+
+.pull-left {
+  float: left;
+}
