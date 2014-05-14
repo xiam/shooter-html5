@@ -86,7 +86,8 @@ define(['jquery', 'ws', 'entity', 'ship', 'fire', 'powerup', 'isMobile', 'sound'
         $('#gamertag').val(window.localStorage.name);
       };
     };
-    $('#gamertag')[0].focus();
+    //$('#gamertag')[0].focus();
+
   };
 
   module.prototype.hideInstructions = function() {
