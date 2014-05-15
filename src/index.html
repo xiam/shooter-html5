@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>shooter.io - Space Shooter (BETA)</title>
+    <title>shooter.io - Space Shooter!</title>
     <link href="http://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet" type="text/css">
 
     <meta name="viewport" content="initial-scale=0.5; maximum-scale=1.0; width=device-width; user-scalable=0"/>
+
+    <meta name="description" content="shooter.io is a network based multiplayer space shooter game.">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <link rel="stylesheet" media="all" href="css/main.css">
 
-    <meta property="og:site_name" content="shooter.io - Space Shooter (BETA)" />
-    <meta property="og:title" content="shooter.io - Space Shooter (BETA)" />
+    <meta property="og:site_name" content="shooter.io - Space Shooter!" />
+    <meta property="og:title" content="shooter.io is a network based multiplayer space shooter game." />
     <meta property="og:url" content="http://shooter.io" />
     <meta property="og:image" content="http://shooter.io/assets/share.png" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <meta itemprop="name" content="shooter.io - Space Shooter (BETA)">
-    <meta itemprop="description" content="shooter.io - Space Shooter (BETA)">
+    <meta itemprop="name" content="shooter.io - Space Shooter!">
+    <meta itemprop="description" content="shooter.io is a network based multiplayer space shooter game.">
     <meta itemprop="image" content="http://shooter.io/assets/share.png">
 
     <script type="text/javascript" src="js/require.js"></script>
@@ -29,6 +31,10 @@
     </script>
   </head>
   <body>
+
+    <p class="description">
+      shooter.io is a network based multiplayer space shooter game.
+    </p>
 
     <div id="loading">loading...</div>
 
@@ -93,13 +99,16 @@
             <li>
               Press <span class="keys">[space]</span> to shoot.
             </li>
+            <li>
+              <span class="keys"><a href="https://github.com/xiam/shooter-html5" target="_blank">Fork</a></span> it and
+              <span class="keys"><a href="https://github.com/xiam/shooter-server" target="_blank">Hack</a></span> it.
+            </li>
           </ul>
         </div>
 
         <form id="form-handle">
           <label>
-            Name:
-            <input type="text" id="gamertag" autocomplete="off" autocorrect="off" autocapitalize="off" />
+            <input type="text" placeholder="Your name" id="gamertag" autocomplete="off" autocorrect="off" autocapitalize="off" />
           </label>
           <label class="pull-left">
             <input type="checkbox" id="enable-sound"> Sound

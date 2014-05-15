@@ -169,6 +169,16 @@ td.points {
   font-weight: bold;
   color: #fff;
   font-size: 1.2em;
+  text-decoration: none;
+}
+
+span.keys a,
+span.keys a:hover,
+span.keys a:link,
+span.keys a:active,
+span.keys a:visited
+{
+  color: #fff;
 }
 
 button {
@@ -293,4 +303,8 @@ h2, h1 {
 
 .pull-left {
   float: left;
+}
+
+.description {
+  display: none;
 }
