@@ -20,6 +20,11 @@ The last command will run a HTTP server on `localhost`, fire up Chrome and type
 Running a local `shooter-server` is not required, as this client will connect
 to the main [shooter.io][3] game server by itself.
 
+## What about the server?
+
+If you're interested on hacking on [Go][6] code, you may check out the
+[shooter-server][4] repo too.
+
 ## How to collaborate
 
 You may...
@@ -99,4 +104,5 @@ licensing" model.  The licensing options available are:
 [2]: http://kenney.nl/
 [3]: http://shooter.io
 [4]: https://github.com/xiam/shooter-server
-[5]: httpwviewizard.com
+[5]: http://viewizard.com
+[6]: http://golang.org
